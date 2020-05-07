@@ -22,7 +22,7 @@
 
         //set up capture button
         btnCapture.addEventListener('click',function(){
-                const photoSettings = {fillLightMode:"flash", imageHeight: 400, imageWidth:400};
+                const photoSettings = {fillLightMode:"flash"};
                 imageCapture.takePhoto(photoSettings)
                 .then(blob => {
                     img.src = URL.createObjectURL(blob);
