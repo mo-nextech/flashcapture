@@ -1,0 +1,47 @@
+<html>
+<script>
+  navigator.mediaDevices.getUserMedia({
+        video:{ facingMode: 'environment'}
+    })
+    .then(processMedia)
+    .catch(errorHandler)
+
+    function processMedia(stream){
+        const video = document.querySelector('video');
+        video.srcObject = stream;
+        
+        // get the active track of the stream
+        const track = stream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(track);
+
+        imageCapture.getPhotoCapabilities()
+        .then((capabilities) => console.log("image capture capabilities", capabilities))
+        
+        imageCapture.getPhotoSettings()
+        .then((settings) => {console.log("image capture settings", settings)})
+
+        //set up capture button
+        btnCapture.addEventListener('click',function(){
+                const photoSettings = {fillLightMode:"flash", imageHeight: 400, imageWidth:400};
+                imageCapture.takePhoto(photoSettings)
+                .then(blob => {
+                    img.src = URL.createObjectURL(blob);
+                    img.onload = () => { URL.revokeObjectURL(this.src); }
+                    console.log("print capture button blob",blob)
+    
+                    imageCapture.getPhotoSettings()
+                    .then((settings) => console.log("image capture settings after capture", settings))
+                })
+                .catch(error => console.error('takePhoto() error:', error));
+        })
+        
+        
+    }
+
+    function errorHandler(error){
+        console.log("error object", error);
+    }
+  }
+</script>
+<video autoplay></video>
+</html>
