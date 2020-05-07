@@ -33,15 +33,14 @@
                     .then((settings) => console.log("image capture settings after capture", settings))
                 })
                 .catch(error => console.error('takePhoto() error:', error));
-        })
-        
-        
+        })  
     }
-
     function errorHandler(error){
         console.log("error object", error);
     }
   }
 </script>
 <video autoplay></video>
+<br><button id="btnCapture">Capture</button>
+<img id="img">
 </html>
